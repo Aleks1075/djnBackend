@@ -1,6 +1,23 @@
 import { Request, Response } from 'express';
 import Event from '../models/event';
 
+const getEvent = async (req: Request, res: Response) => {
+    try {
+        const eventId = req.params.eventId;
+
+        const event = await Event.findById(eventId);
+
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
 const searchEvent = async (req: Request, res: Response) => {
     try {
         const city = req.params.city;
@@ -75,5 +92,6 @@ const searchEvent = async (req: Request, res: Response) => {
 };
 
 export default {
+    getEvent,
     searchEvent,
 };
