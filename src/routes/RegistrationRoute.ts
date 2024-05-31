@@ -1,10 +1,17 @@
-import express from 'express';
-import { jwtCheck, jwtParse } from '../middleware/auth';
-import RegistrationController from '../controllers/RegistrationController';
+import express from "express";
+import { jwtCheck, jwtParse } from "../middleware/auth";
+import RegistrationController from "../controllers/RegistrationController";
 
 const router = express.Router();
 
-router.post("/checkout/create-checkout-session", jwtCheck, jwtParse, RegistrationController.createCheckoutSession);
+router.get("/", jwtCheck, jwtParse, RegistrationController.getMyRegistrations);
+
+router.post(
+  "/checkout/create-checkout-session",
+  jwtCheck,
+  jwtParse,
+  RegistrationController.createCheckoutSession
+);
 
 router.post("/checkout/webhook", RegistrationController.stripeWebhookHandler);
 
